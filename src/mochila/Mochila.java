@@ -13,13 +13,12 @@ public class Mochila {
  
     static int max(int a, int b) { return (a > b)? a : b; } // Máximo de dois inteiros
       
-   // Returns the maximum value that can be put in a knapsack of capacity W
     static int knapSack(int W, int wt[], int val[], int n) // valor max que pode ser colocado na mochila de cap M
     {
          int i, w;
      int K[][] = new int[n+1][W+1];
       
-     // Build table K[][] in bottom up manner
+     //Constrói tabela K[][] de baixo para cima
      for (i = 0; i <= n; i++)
      {
          for (w = 0; w <= W; w++)
@@ -31,8 +30,8 @@ public class Mochila {
              else
                    K[i][w] = K[i-1][w];
          }
-      }
-      
+     
+     }
       return K[n][W];
     }
  
