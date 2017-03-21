@@ -34,7 +34,6 @@ public class Mochila {
      }
       return K[n][W];
     }
- 
    
     // Driver program to test above function
     public static void main(String args[])
