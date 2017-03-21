@@ -1,20 +1,40 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package mochila;
 
 /**
  *
  * @author amaro
  */
+
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+
 public class Mochila {
  
     static int max(int a, int b) { return (a > b)? a : b; } // Máximo de dois inteiros
       
     static int knapSack(int W, int wt[], int val[], int n) // valor max que pode ser colocado na mochila de cap M
     {
+
+        ArrayList<Integer> weightsVector = new ArrayList<Integer>(), valuesVector = new ArrayList<Integer>();
+        int backpackSize = doParseData("src/mochila01.txt", weightsVector, valuesVector);
+        if (backpackSize != -1)
+        {
+            System.out.println("backpackSize: " + backpackSize);
+
+            System.out.println("weightsVector:");
+            for (int i = 0; i < weightsVector.size(); i++)
+                System.out.println(weightsVector.get(i));
+
+            System.out.println("valuesVector:");
+            for (int i = 0; i < valuesVector.size(); i++)
+                System.out.println(valuesVector.get(i));
+        }
+
          int i, w;
      int K[][] = new int[n+1][W+1];
       
@@ -34,7 +54,62 @@ public class Mochila {
      }
       return K[n][W];
     }
-   
+
+    public static int doParseData(String filePathIn, ArrayList<Integer> weightsVector, ArrayList<Integer> valuesVector)
+    {
+        InputStream fileIn;
+        try
+        {
+            fileIn = new FileInputStream(filePathIn);
+            try
+            {
+                BufferedReader streamIn = new BufferedReader(new InputStreamReader(fileIn));
+
+                String[] main = streamIn.readLine().split(" "); // Vector size, backpack capacity
+                String weights[] = streamIn.readLine().split(" "); // Vector of weights
+                String values[] = streamIn.readLine().split(" "); // Vector of values
+
+                // First line should have 2 values
+                if (main.length != 2)
+                {
+                    streamIn.close();
+                    return -1;
+                }
+
+                int vectorSize = Integer.parseInt(main[0]);
+                int backpackSize = Integer.parseInt(main[1]);
+
+                // Vector should have same length estabilished on 'vectorSize' value
+                if (weights.length != vectorSize || values.length != vectorSize)
+                {
+                    streamIn.close();
+                    return -1;
+                }
+
+                // Initialize vectors
+                for (int i = 0; i < vectorSize; i++)
+                {
+                    weightsVector.add(Integer.parseInt(weights[i]));
+                    valuesVector.add(Integer.parseInt(values[i]));
+                }
+
+                streamIn.close();
+                return backpackSize;
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+                System.out.println(">> [ERROR] Error while reading the input file.");
+            }
+        }
+        catch (FileNotFoundException e)
+        {
+            e.printStackTrace();
+            System.out.println(">> [ERROR] File does not exists.");
+        }
+        return -1;
+    }
+
     // Driver program to test above function
     public static void main(String args[])
     {
