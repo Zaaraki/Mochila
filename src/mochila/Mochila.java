@@ -25,7 +25,7 @@ public class Mochila {
 
         int i, w;
         int K[][] = new int[n + 1][W + 1]; // Armazena todas as soluções
-        int item[] = new int[n];
+
 
         //Constrói tabela K[][] de baixo para cima
         for (i = 0; i <= n; i++) {  //Considerar um por um todos os itens
@@ -34,7 +34,6 @@ public class Mochila {
                     K[i][w] = 0;
                 else if (wt[i - 1] <= w) { //Se não excedeu o peso, coloca na mochila
                     K[i][w] = max(val[i - 1] + K[i - 1][w - wt[i - 1]], K[i - 1][w]);
-                    item[i]=i;
                 }
 
                 else // Excedeu o peso
@@ -43,8 +42,17 @@ public class Mochila {
 
         }
 
-        System.out.println(item);
+        System.out.print("Produtos escolhidos: ");
+        for (int m = n, cap = W; m > 0 ; m--){
+            if(cap >= wt[m-1]){
+                if(K[m][cap] == (val[m-1] + K[n-1][cap - wt[m-1]])){
+                    System.out.print(m+" " );
+                    cap = cap- wt[m-1];
+                }
+            }
+        }
 
+        System.out.println();
         return K[n][W];
     }
 
@@ -131,8 +139,11 @@ public class Mochila {
                 }
             }
 
+
             System.out.println("Instancia: mochila0" + a + ".txt" );
             System.out.println("Melhor solucao: " + knapSack(backpackSize, peso, val, qtdItem));
+
+
             System.out.println();
         }
     }
