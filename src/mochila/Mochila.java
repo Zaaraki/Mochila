@@ -24,22 +24,31 @@ public class Mochila {
     {
 
         int i, w;
-        int K[][] = new int[n + 1][W + 1];
+        int K[][] = new int[n + 1][W + 1]; // Armazena todas as soluções
+        int item[] = new int[n];
 
         //Constrói tabela K[][] de baixo para cima
-        for (i = 0; i <= n; i++) {
-            for (w = 0; w <= W; w++) {
-                if (i == 0 || w == 0)
+        for (i = 0; i <= n; i++) {  //Considerar um por um todos os itens
+            for (w = 0; w <= W; w++) { //Tentando todas as possibilidades para encontrar as soluções para as combinações
+                if (i == 0 || w == 0)  //Se o número de itens é zero ou w é zero,então 1a col e linha é 0
                     K[i][w] = 0;
-                else if (wt[i - 1] <= w)
+                else if (wt[i - 1] <= w) { //Se não excedeu o peso, coloca na mochila
                     K[i][w] = max(val[i - 1] + K[i - 1][w - wt[i - 1]], K[i - 1][w]);
-                else
+                    item[i]=i;
+                }
+
+                else // Excedeu o peso
                     K[i][w] = K[i - 1][w];
             }
 
         }
+
+        System.out.println(item);
+
         return K[n][W];
     }
+
+
 
     public static int doParseData(String filePathIn, ArrayList<Integer> weightsVector, ArrayList<Integer> valuesVector) {
 
