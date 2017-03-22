@@ -42,9 +42,12 @@ public class Mochila {
     }
 
     public static int doParseData(String filePathIn, ArrayList<Integer> weightsVector, ArrayList<Integer> valuesVector) {
+
         InputStream fileIn;
+
         try {
             fileIn = new FileInputStream(filePathIn);
+
             try {
                 BufferedReader streamIn = new BufferedReader(new InputStreamReader(fileIn));
 
@@ -83,6 +86,7 @@ public class Mochila {
             e.printStackTrace();
             System.out.println(">> [ERROR] File does not exists.");
         }
+
         return -1;
     }
 
@@ -93,37 +97,34 @@ public class Mochila {
 //        int M = 23; //CAPACIDADE
 //        int n = vi.length; //NÚMERO DE OBJETOS
 
-        ArrayList<Integer> weightsVector = new ArrayList<Integer>(), valuesVector = new ArrayList<Integer>();
-        int backpackSize = doParseData("src/mochila02.txt", weightsVector, valuesVector);
+        String path = "src/";
 
-        int [] val= new int[valuesVector.size()];
-        int [] peso= new int[weightsVector.size()];
+        for (int a = 1; a <=2 ; a++) {
 
-        int qtdItem = val.length;
 
-        for(int i = 0; i < valuesVector.size(); i++) {
-            if (valuesVector.get(i) != null) {
-                val[i] = valuesVector.get(i);
+            ArrayList<Integer> weightsVector = new ArrayList<Integer>(), valuesVector = new ArrayList<Integer>();
+            int backpackSize = doParseData(path+"mochila0" + a + ".txt", weightsVector, valuesVector);
+
+            int[] val = new int[valuesVector.size()];
+            int[] peso = new int[weightsVector.size()];
+
+            int qtdItem = val.length;
+
+            for (int i = 0; i < valuesVector.size(); i++) {
+                if (valuesVector.get(i) != null) {
+                    val[i] = valuesVector.get(i);
+                }
             }
-        }
 
-        for(int i = 0; i < weightsVector.size(); i++) {
-            if (weightsVector.get(i) != null) {
-                peso[i] = weightsVector.get(i);
+            for (int i = 0; i < weightsVector.size(); i++) {
+                if (weightsVector.get(i) != null) {
+                    peso[i] = weightsVector.get(i);
+                }
             }
+
+            System.out.println("Instancia: mochila0" + a + ".txt" );
+            System.out.println("Melhor solucao: " + knapSack(backpackSize, peso, val, qtdItem));
+            System.out.println();
         }
-
-        for (int i = 0; i < val.length; i++) {
-            System.out.println(val[i]);
-        }
-
-
-        for (int i = 0; i < peso.length; i++) {
-            System.out.println(peso[i]);
-        }
-
-        System.out.println( backpackSize + " " + qtdItem);
-
-        System.out.println("Melhor solucao: " + knapSack(backpackSize, peso, val, qtdItem));
     }
 }
